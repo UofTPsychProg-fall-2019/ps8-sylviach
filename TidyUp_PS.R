@@ -11,7 +11,7 @@ library(tidyverse)
 setwd("~/GitHub/ps8-sylviach")
 
 # reading in IAT data  ---------------------------------------------
-IAT <- read.csv("C:/Users/XiaoMin/Documents/GitHub/ps8-sylviach/IAT.csv")
+IAT <- read.csv("C:/Users/Helwig Lab/Documents/GitHub/ps8-sylviach/IAT.csv")
 
 # use a tidyverse function to read in the included IAT_2019.csv file 
 tbl <- read_csv("IAT.csv")
@@ -76,8 +76,8 @@ summary(tbl_clean)
 # some of our variables have missing values that aren't properly coded as missing  
 # recode missing values in gender and state
 
-tbl_clean$gender <- fct_explicit_na(tbl_clean$gender, na_level = "Missing")
-tbl_clean$state <- fct_explicit_na(tbl_clean$state, na_level = "Missing")
+tbl_clean$gender <- fct_explicit_na(tbl_clean$gender, na_level = "999")
+tbl_clean$state <- fct_explicit_na(tbl_clean$state, na_level = "999")
 
 # changing variable types  ---------------------------------------------  
 # next, convert id and all variables that are character types to factors
@@ -102,12 +102,12 @@ slice(gender_count, 1:2,4)
 tbl_clean$gender4 <- recode(tbl_clean$gender, 
                             "[2]" = 'Female', 
                             "[1]" = 'Male', 
-                            "[5]" = 'Queer', 
+                            "[5]" = 'Queer/nonconforming', 
                             .default = "Other")
 
 # Now take a look at how highest obtained education is coded (key on line 35)
 edu_count <- tbl_clean %>% group_by(edu) %>% tally()  
-
+edu_count <- arrange(edu_count,desc(n))
 #create a new variable that recodes education into: no highscool, some highschool, highschool graduate, some college, postsecondary degree, masters (MA & MBA), advanced degree
 #remember that the recode function isn't always the best solution for numeric variables
 tbl_clean$edu7 <- recode(as.factor(tbl_clean$edu),
@@ -128,7 +128,7 @@ tbl_clean$edu7 <- recode(as.factor(tbl_clean$edu),
 
 # mutating variables ---------------------------------------------  
 # rewrite the above recoding steps so that they both occur within a single call of the mutate function
-tbl_clean <- tbl_clean <- mutate(tbl_clean, gender4 = recode(gender, "[2]" = "Female", "[1]" = "Male", "[5]" = "Queer", .default = "Other"),
+tbl_clean <- tbl_clean <- mutate(tbl_clean, gender4 = recode(gender, "[2]" = "Female", "[1]" = "Male", "[5]" = "Queer/nonconforming", .default = "Other"),
                                     edu7 = recode(as.factor(edu), '1' = 'no highschool','2' = 'no highschool', '3' = 'some highschool',
                                                   '4' = 'highschool graduate','5' = 'some college','6' = 'postsecondary degree','7' = 'postsecondary degree',
                                                   '8'= 'postsecondary degree','9'= 'masters (MA & MBA)','14'= 'masters (MA & MBA)','10' = 'advanced degree',
@@ -140,19 +140,19 @@ tbl_clean <- tbl_clean <- mutate(tbl_clean, gender4 = recode(gender, "[2]" = "Fe
 
 # white men
 whiteM <- filter(tbl_clean, race == 6 & gender4 == 'Male')
-mean(whiteM$bias)
+print(mean(whiteM$bias))
 
 # white women
 whiteW <- filter(tbl_clean, race == 6 & gender4 == 'Female')
-mean(whiteW$bias)
+print(mean(whiteW$bias))
 
 # advanced degree holders who are men
 advanceM <- filter(tbl_clean, edu7 == "advanced degree" & gender4 == 'Male')
-mean(advanceM$bias)
+print(mean(advanceM$bias))
 
 # high school graduates who are men
 highschoolM <- filter(tbl_clean, edu7 == "highschool graduate" & gender4 == 'Male')
-mean(highschoolM$bias)
+print(mean(highschoolM$bias))
 
 
 
