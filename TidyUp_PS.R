@@ -139,20 +139,20 @@ tbl_clean <- tbl_clean <- mutate(tbl_clean, gender4 = recode(gender, "[2]" = "Fe
 # using filtering, calculate and print the mean bias score for:
 
 # white men
-whiteM_bias <- filter(tbl_clean, race == 6 & gender4 == 'Male')
-mean(whiteM_bias$bias)
+whiteM <- filter(tbl_clean, race == 6 & gender4 == 'Male')
+mean(whiteM$bias)
 
 # white women
-whiteW_bias <- filter(tbl_clean, race == 6 & gender4 == 'Female')
-mean(whiteW_bias$bias)
+whiteW <- filter(tbl_clean, race == 6 & gender4 == 'Female')
+mean(whiteW$bias)
 
 # advanced degree holders who are men
-advanceM_bias <- filter(tbl_clean, edu7 == "advanced degree" & gender4 == 'Male')
-mean(advanceM_bias$bias)
+advanceM <- filter(tbl_clean, edu7 == "advanced degree" & gender4 == 'Male')
+mean(advanceM$bias)
 
 # high school graduates who are men
-highschoolM_bias <- filter(tbl_clean, edu7 == "highschool graduate" & gender4 == 'Male')
-mean(highschoolM_bias$bias)
+highschoolM <- filter(tbl_clean, edu7 == "highschool graduate" & gender4 == 'Male')
+mean(highschoolM$bias)
 
 
 
