@@ -76,8 +76,8 @@ summary(tbl_clean)
 # some of our variables have missing values that aren't properly coded as missing  
 # recode missing values in gender and state
 
-tbl_clean$gender <- fct_explicit_na(tbl_clean$gender, na_level = "999")
-tbl_clean$state <- fct_explicit_na(tbl_clean$state, na_level = "999")
+tbl_clean$gender <- fct_explicit_na(tbl_clean$gender, na_level = "Missing")
+tbl_clean$state <- fct_explicit_na(tbl_clean$state, na_level = "Missing")
 
 # changing variable types  ---------------------------------------------  
 # next, convert id and all variables that are character types to factors
